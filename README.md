@@ -64,6 +64,7 @@ In the example given in `__main__` an extraction are performed for the image `te
 ## Examples
 
 Source image:
+
 ![Test image](test.jpg)
 
 Extracted text:
@@ -183,6 +184,7 @@ Extracted text:
 ```
 
 Source image:
+
 ![Test image](test2.jpg)
 
 Extracted text:
