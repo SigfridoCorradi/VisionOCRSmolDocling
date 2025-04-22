@@ -1,5 +1,5 @@
-# VisionOCRSmolDocling
-This project is based on the [SmolDocling by 256M](https://huggingface.co/ds4sd/SmolDocling-256M-preview) model of parameters for converting images to text, specifically with the document representation format called [DoclingDocument](https://docling-project.github.io/docling/concepts/docling_document/). See the paper [SmolDocling: An ultra-compact vision-language model for end-to-end multi-modal document conversion](https://arxiv.org/pdf/2503.11576) for details of the work done.
+# VisionOCRSmolDocling: Image-Text-to-Text conversion with SmolDocling-256M
+This project is based on the [SmolDocling 256M](https://huggingface.co/ds4sd/SmolDocling-256M-preview) parameters for converting images to text, specifically with the document representation format called [DoclingDocument](https://docling-project.github.io/docling/concepts/docling_document/). See the paper [SmolDocling: An ultra-compact vision-language model for end-to-end multi-modal document conversion](https://arxiv.org/pdf/2503.11576) for details of the work done.
 
 ## Installation
 
