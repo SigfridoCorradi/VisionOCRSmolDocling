@@ -26,11 +26,7 @@ class VisionOCRSmolDocling:
             self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
         self._download_model_if_needed()
-
-        #Loading processor from self.local_dir
         self.processor = AutoProcessor.from_pretrained(self.local_dir)
-
-        #Loading pre-trained model from self.local_dir
         self.model = AutoModelForVision2Seq.from_pretrained(
             self.local_dir,
             torch_dtype=self.torch_dtype,
@@ -38,7 +34,6 @@ class VisionOCRSmolDocling:
         ).to(self.device)
 
     def _download_model_if_needed(self):
-        #Checks if the model exists locally and downloads it if not.
         if not os.path.exists(self.local_dir):
             try:
                 snapshot_download(
@@ -87,8 +82,7 @@ class VisionOCRSmolDocling:
         except Exception as e:
             print(f"Error processing inputs: {e}")
             return f"Error processing inputs: {e}"
-
-        # Generating output
+            
         raw_doctags = "Error during model generation" # Default error value
         try:
             with torch.inference_mode():
