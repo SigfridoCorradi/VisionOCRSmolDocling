@@ -1,26 +1,3 @@
-'''
-CREAZIONE: python3 -m venv venv
-ATTIVAZIONE: source venv/bin/activate
-
-https://arxiv.org/pdf/2503.11576
-https://huggingface.co/ds4sd/SmolDocling-256M-preview
-
-https://medium.com/@speaktoharisudhan/smoldocling-a-compact-vision-language-model-c54795474faf
-
-
-extract_text
-        Performs inference on a single image and returns the raw model output string.
-
-        Args:
-            image_path (str): Path to the input image file.
-            prompt_text (str): The text prompt to guide extraction. Il prompt può esserre differente per estrarre in modo più accurato specifici contenunti come: `convert code to text`. Qui utilizzo il prompt generico `Convert this page to docling.`
-            max_new_tokens (int): Maximum number of new tokens to generate.
-
-        Returns:
-            str: The raw doctags string output from the model, or an error message.
-
-'''
-
 import torch
 import os
 from huggingface_hub import snapshot_download
