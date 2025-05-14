@@ -1,5 +1,8 @@
 # VisionOCRSmolDocling: Image-Text-to-Text conversion with SmolDocling-256M
-This project is based on the [SmolDocling 256M](https://huggingface.co/ds4sd/SmolDocling-256M-preview) parameters for converting images to text, specifically with the document representation format called [DoclingDocument](https://docling-project.github.io/docling/concepts/docling_document/). See the paper [SmolDocling: An ultra-compact vision-language model for end-to-end multi-modal document conversion](https://arxiv.org/pdf/2503.11576) for details of the work done.
+Traditional Optical Character Recognition (OCR) primarily focuses on extracting raw text from images. While useful, this often discards crucial structural information present in documents, such as headings, lists, tables, and reading order.
+
+This project provides a simple Python class, `VisionOCRSmolDocling`, that leverages the power of the [SmolDocling-256M](https://huggingface.co/ds4sd/SmolDocling-256M-preview) model to perform multi-modal document conversion. Instead of just returning plain text, it processes document images and generates a text representation in the [DoclingDocument](https://docling-project.github.io/docling/concepts/docling_document/) format. This format aims to capture not just the text content but also elements of the document's layout and structure, making it more valuable for downstream tasks like document analysis, information extraction, or accessibility.
+See the paper [SmolDocling: An ultra-compact vision-language model for end-to-end multi-modal document conversion](https://arxiv.org/pdf/2503.11576) for details of the work done.
 
 ## Installation
 
@@ -22,6 +25,71 @@ This project is based on the [SmolDocling 256M](https://huggingface.co/ds4sd/Smo
     ```bash
     pip3 install -r requirements.txt
     ```
+
+4.  **Model Download:** The SmolDocling model (`ds4sd/SmolDocling-256M-preview`) will be automatically downloaded to the `./smoldocling_local_model` directory the *first time* you instantiate the `VisionOCRSmolDocling` class. Ensure you have sufficient disk space (the model files are approximately 500MB).
+
+## Usage
+
+Here's how to use the `VisionOCRSmolDocling` class to extract text in Docling format from an image:
+
+1.  **Prepare your image:** Have a document image file ready (e.g., `test.jpg`).
+
+2.  **Run the script:** You can use the provided `__main__` block as an example:
+
+    ```bash
+    python VisionOCRSmolDocling.py
+    ```
+
+    This will instantiate the extractor, process `test.jpg`, and print the resulting Docling text.
+
+3.  **Integrate into your Python code:**
+
+    ```python
+    from VisionOCRSmolDocling import VisionOCRSmolDocling
+    import os
+
+    # Path to your document image
+    image_file_path = "path/to/your/image.jpg" # Replace with your image path
+
+    if not os.path.exists(image_file_path):
+        print(f"Error: Image file not found at {image_file_path}")
+    else:
+        try:
+            # Initialize the extractor
+            # (Model will be downloaded on first run)
+            print("Initializing SmolDocling extractor...")
+            extractor = VisionOCRSmolDocling(
+                # Optional parameters:
+                # device="cuda" if torch.cuda.is_available() else "cpu",
+                # torch_dtype=torch.bfloat16, # Use bfloat16 for better performance on compatible GPUs
+                # attention_implementation="eager" # Or "flash_attention_2" if installed
+            )
+            print("Extractor initialized.")
+
+            # Extract text in Docling format
+            print(f"Extracting Docling text from {image_file_path}...")
+            extracted_docling = extractor.extract_text(
+                image_path=image_file_path,
+                prompt_text="Convert this page to docling." # Default prompt
+                # max_new_tokens=4096 # Adjust max output length if needed
+            )
+
+            print("\n--- Extracted Docling Document ---")
+            print(extracted_docling)
+            print("----------------------------------")
+
+        except Exception as e:
+            print(f"An error occurred during processing: {e}")
+
+    ```
+
+## Output Format: DoclingDocument
+
+The `extract_text` method returns a string containing the raw output from the SmolDocling model. This output is structured according to the **DoclingDocument** format.
+
+The Docling format is a text-based representation designed to encode the content and layout of documents. It uses special tokens and indentation to represent elements like paragraphs, lists, tables, headings, etc., and their hierarchical relationships.
+
+**This tool outputs the raw Docling text; it does not parse or interpret the Docling structure itself.** To work with the structured information, you would typically need a separate Docling parser.
 
 ## Code structure
 
